@@ -15,13 +15,36 @@ def generate_test_code(func_data, module, all_methods):
                 return node
         return None
 
+    def infer_type_from_usage(node, param_name):
+        for subnode in ast.walk(node):
+            if isinstance(subnode, ast.Subscript) and isinstance(subnode.value, ast.Name) and subnode.value.id == param_name:
+                return 'dict'
+            if isinstance(subnode, ast.Compare):
+                for comparator in subnode.comparators:
+                    if isinstance(comparator, ast.Attribute) and isinstance(comparator.value, ast.Name):
+                        if comparator.value.id == param_name:
+                            return 'dict'
+            if isinstance(subnode, ast.BinOp) and (
+                isinstance(subnode.left, ast.Name) and subnode.left.id == param_name or
+                isinstance(subnode.right, ast.Name) and subnode.right.id == param_name):
+                return 'int'
+            if isinstance(subnode, ast.For) and isinstance(subnode.iter, ast.Name) and subnode.iter.id == param_name:
+                return 'list'
+            if isinstance(subnode, ast.Call) and isinstance(subnode.func, ast.Attribute):
+                if isinstance(subnode.func.value, ast.Name) and subnode.func.value.id == param_name:
+                    if subnode.func.attr in ['format', 'split', 'join']:
+                        return 'str'
+        return None
+
     def get_args_string(func_ref, func_node):
         try:
             constraints = get_param_constraints(func_node)
             sig = inspect.signature(func_ref)
             params = []
 
-            for name, param in list(sig.parameters.items())[1:]:  # Skip 'self'
+            for name, param in list(sig.parameters.items()):
+                if name == 'self':
+                    continue
                 if name in constraints:
                     op, value = constraints[name][0]
                     if op in ['LtE', 'Lt']:
@@ -46,16 +69,15 @@ def generate_test_code(func_data, module, all_methods):
                     else:
                         safe_val = '"sample"'
                 else:
-                    if name in ["inventory", "prices", "catalog", "db"]:
+                    inferred = infer_type_from_usage(func_node, name)
+                    if inferred == 'dict':
                         safe_val = '{"sample_key": 10}'
-                    elif name in ["product_id", "key", "name"]:
-                        safe_val = '"sample_key"'
-                    elif name in ["quantity", "count", "amount", "level"]:
+                    elif inferred == 'list':
+                        safe_val = '["sample_value"]'
+                    elif inferred == 'str':
+                        safe_val = '"sample"'
+                    elif inferred == 'int':
                         safe_val = '1'
-                    elif name in ["items", "cart", "history"]:
-                        safe_val = '[("sample_key", 1)]'
-                    elif name in ["rate", "price"]:
-                        safe_val = '0.1'
                     else:
                         safe_val = '"sample"' if name.lower().endswith("name") else '1'
 
@@ -63,7 +85,8 @@ def generate_test_code(func_data, module, all_methods):
 
             return ", ".join(params)
         except Exception:
-            return "..."
+            sig = inspect.signature(func_ref)
+            return ", ".join("1" for name, param in sig.parameters.items() if name != "self")
 
     file_path = inspect.getfile(module)
 
@@ -82,7 +105,6 @@ def test_{func_name}():
         init_node = get_func_node_from_ast(file_path, "__init__")
         init_args = get_args_string(init_func, init_node)
 
-        # Detect mutator and accessor based on AST structure
         mutator = accessor = None
         for m in all_methods:
             if m[0] != class_name:
@@ -127,4 +149,3 @@ def test_{func_name}():
     else:
         assert result is None
 """
-

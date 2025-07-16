@@ -9,7 +9,7 @@ def test_add_to_cart():
         assert result is None
 
 def test_calculate_total():
-    obj = OrderProcessor(1, {"sample_key": 10})
+    obj = OrderProcessor(1, 1)
     result = obj.calculate_total({"sample_key": 10})
     if result is not None:
         assert isinstance(result, (int, float, str, list, dict))
@@ -17,7 +17,7 @@ def test_calculate_total():
         assert result is None
 
 def test_checkout():
-    obj = OrderProcessor(1, {"sample_key": 10})
+    obj = OrderProcessor(1, 1)
     result = obj.checkout()
     if result is not None:
         assert isinstance(result, (int, float, str, list, dict))
