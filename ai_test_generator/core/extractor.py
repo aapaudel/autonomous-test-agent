@@ -8,7 +8,7 @@ def extract_functions(file_path):
 
     for node in tree.body:
         if isinstance(node, ast.FunctionDef):
-            function_names.append("global", node.name)
+            function_names.append(("global", node.name))
         elif isinstance(node, ast.ClassDef):
             class_name = node.name
             for item in node.body:
