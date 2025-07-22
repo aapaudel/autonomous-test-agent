@@ -11,11 +11,11 @@ read -p "Enter option [1-3]: " choice
 
 case $choice in
   1)
-    echo "🔍 Generating tests for changed files..."
+    echo "Generating tests for changed files..."
     python cli.py --on-change --src $SRC_DIR --out $OUT_DIR
     ;;
   2)
-    echo "🔁 Generating tests for all source files..."
+    echo "Generating tests for all source files..."
     python cli.py --all --src $SRC_DIR --out $OUT_DIR
     ;;
   3)
@@ -23,6 +23,6 @@ case $choice in
     python cli.py --file $FILE_PATH --out $OUT_DIR
     ;;
   *)
-    echo "❌ Invalid option. Exiting."
+    echo "Invalid option. Exiting."
     ;;
 esac
