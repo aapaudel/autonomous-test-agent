@@ -1,7 +1,10 @@
 #!/bin/bash
 
-SRC_DIR="project2/"
-OUT_DIR="project2/tests/"
+SRC_DIR="application/python_functions_sample.py"
+OUT_DIR="tests/"
+
+# echo "Generating tests for all source files..."
+# python cli.py --all --src $SRC_DIR --out $OUT_DIR
 
 echo "Select test generation mode:"
 echo "1) Changed files only"
