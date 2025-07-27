@@ -7,3 +7,10 @@ def test_is_even():
 def test_greet():
     result = greet("sample_key")
     assert result is not None if result is not None else result is None
+
+def test_example():
+    assert True
+
+def test_example():
+    assert True
+

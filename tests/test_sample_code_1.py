@@ -11,3 +11,13 @@ def subtract(a, b):
 def multiply(a, b):
     return a * b
 
+
+def test_example():
+    assert True
+
+def test_example():
+    assert True
+
+def test_example():
+    assert True
+

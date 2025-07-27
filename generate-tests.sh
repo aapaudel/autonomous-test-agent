@@ -1,6 +1,6 @@
 #!/bin/bash
 
-SRC_DIR="application/python_functions_sample.py"
+SRC_DIR="application/"
 OUT_DIR="tests/"
 
 # echo "Generating tests for all source files..."

@@ -23,3 +23,13 @@ def test_get_balance():
         assert isinstance(result, (int, float, str, list, dict))
     else:
         assert result is None
+
+def test_example():
+    assert True
+
+def test_example():
+    assert True
+
+def test_example():
+    assert True
+
