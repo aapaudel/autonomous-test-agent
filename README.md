@@ -23,18 +23,12 @@ In an especially Agile workflows the rapid code change or a minor code change le
 - Shell Script a CLI wrapper for ease of use (generate-tests.sh)
 - Tailored test generation prompts for better model results
 
-**The Thought Process**
+The Thought Process
 
-Using an Extractor function to parse the source code using ast that identifes the functions,
-each function is converted into a natural language prompt using a template and "StarCoder" model generates a corresponding test case which is cleaned and saved. 
-
-**Architecture**
-
-- Function Extraction: Python files are parsed using ast to identify all function definitions.
-- Prompt Creation: Each function is converted into a natural-language prompt using a structured template.
-- Test Generation: The StarCoder model generates a corresponding test case via prompt inference.
-- Test Sanitization: Generated test code is cleaned and written into a test_*.py file.
-- Test Execution: Tests are run using pytest.
+- Using an Extractor function to parse the source code using ast that identifes the functions,
+each function is converted into a natural language prompt using a template and "StarCoder" model generates a corresponding test case
+- Clean the test code and saved 
+- Test cases are executed using pytest
 
 - Modes of the Operation are categorized in three catogories:
     1. Generating test cases for whole source code
