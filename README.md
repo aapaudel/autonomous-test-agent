@@ -1,14 +1,19 @@
-AI Test Geerator
+**Change-Responsive Unit Test Generation for Python Functions Using Prompted LLMs and Value-Constrained Regeneration Loops**
 
-This project buids an AI - powered test generation tool which is designed to automatically generate unit tests from Python source code. Its goal is to reduce the manual effort involved in writing and maintaining tests, especially as codebase grow and evlove.
-Writing test case is tedious, error oriented and often skipped under tight deadlines. This tool aims to reduce the early generation of test cases and reduce the effort put on in generating test cases.
+This project implements an AI - powered test generation tool designed to automatically generate unit tests from Python functions. Its goal is to reduce the manual effort involved in writing and maintaining tests, especially as codebase grow and evlove.
+Writing manual test case is tedious, error prone and often skipped under tight deadlines. This system utilize Large Language Models (LLMs) to automate functional-level unit test generation and ensure that tests evolve alongside the code — especially useful in Agile workflows and CI/CD environments where small code changes frequently trigger regressions. This tool aims to reduce the early generation of test cases and reduce the effort put on in generating test cases.
+
 - Ensure better code coverage
+- Improve test coverage with minimal developer effort
 - Adapt to code changes quickly
+- Generate edge-aware, functional test cases
+- Enable smarter, constraint-aware test inputs
+- Lay foundation for adaptive testing agents
 - Catch bugs early through automated edge-aware testing
 
-In an especially Agime workflows the rapic code canege or a minor code change leads to the regression testing becomes a bottleneck.
+In an especially Agile workflows the rapid code change or a minor code change leads to the regression testing becomes a bottleneck.
 
-Tools Used:
+**Tools Used:**
 
 - Python 3.8 Core
 - Pytest as a testing framework
@@ -18,27 +23,35 @@ Tools Used:
 - Shell Script a CLI wrapper for ease of use (generate-tests.sh)
 - Tailored test generation prompts for better model results
 
-The Thought Process
+**The Thought Process**
 
-- Using an Extractor function to parse the source code using ast that identifes the functions,
-each function is converted into a natural language prompt using a template and "StarCoder" model generates a corresponding test case
-- Clean the test code and saved 
-- Test cases are executed using pytest
+Using an Extractor function to parse the source code using ast that identifes the functions,
+each function is converted into a natural language prompt using a template and "StarCoder" model generates a corresponding test case which is cleaned and saved. 
+
+**Architecture**
+
+- Function Extraction: Python files are parsed using ast to identify all function definitions.
+- Prompt Creation: Each function is converted into a natural-language prompt using a structured template.
+- Test Generation: The StarCoder model generates a corresponding test case via prompt inference.
+- Test Sanitization: Generated test code is cleaned and written into a test_*.py file.
+- Test Execution: Tests are run using pytest.
 
 - Modes of the Operation are categorized in three catogories:
     1. Generating test cases for whole source code
     2. Changes in the specific files via watchere thet looks for changes and regenerate the test case accordingly
     3. Specify the test case for specific files manually
 
-Future work/ working on
+**Future work/ working on**
 
 - Add support to open AI, claude and local LLMs like Code Llama
-- Value Aware Test Generation which is much syarter test with inputs
+- Value Aware Test Generation which is much smarter test with inputs
+- Prompt Auto-Tuning for Domain-Aware Testing
 - generate the test palan with the documanetation
 - GUI and non - termial user approach
 - Generating tests that include mcks, file reads and database stubs
+- Feedback Loop for Test Quality and Mutation Score
 
-Resource for more understanding on the similar works:
+**Resource for more understanding on the similar works**
 
 Z. Gu, H. Zhang, and C. Zhang,
 “TestART: Improving LLM-Based Unit Testing via Co-Evolution of Generation and Repair,”
