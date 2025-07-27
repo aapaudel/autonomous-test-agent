@@ -22,7 +22,7 @@ The Thought Process
 
 - Using an Extractor function to parse the source code using ast that identifes the functions,
 each function is converted into a natural language prompt using a template and "StarCoder" model generates a corresponding test case
-- Clean the test code and saved 
+- Clean the test code and save
 - Test cases are executed using pytest
 
 - Modes of the Operation are categorized in three catogories:
